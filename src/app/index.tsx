@@ -1,98 +1,109 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, ScrollView, Pressable } from "react-native";
+import { styles } from "../styles";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function Index() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.appName}>
+            Pet<Text style={styles.appNameGreen}>Care</Text> <Text style={styles.paw}>🐾</Text>
+          </Text>
+        </View>
+
+        <Pressable style={styles.settingsButton}>
+          <Text style={styles.settingsIcon}>⚙️</Text>
+        </Pressable>
+      </View>
+
+      <Text style={styles.greeting}>Halo, Momma!</Text>
+
+      <Text style={styles.subtitle}>
+        Jangan lupa rawat hewan kesayanganmu hari ini.
+      </Text>
+
+      <View style={styles.summaryContainer}>
+        <View style={[styles.summaryCard, styles.animalCard]}>
+          {/* <Text style={styles.summaryIcon}>🐾</Text> */}
+          <Text style={styles.summaryNumber}>2</Text>
+          <Text style={styles.summaryLabel}>Hewan</Text>
+        </View>
+
+        <View style={[styles.summaryCard, styles.careCard]}>
+          {/* <Text style={styles.summaryIcon}>📅</Text> */}
+          <Text style={styles.summaryNumber}>3</Text>
+          <Text style={styles.summaryLabel}>Perawatan</Text>
+        </View>
+      </View>
+
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Perawatan Terdekat</Text>
+
+        <Pressable>
+          <Text style={styles.seeAll}>Lihat Semua ›</Text>
+        </Pressable>
+      </View>
+
+      <Pressable style={styles.careCardLarge}>
+        <View style={styles.careInfo}>
+          <View style={styles.careEmojiContainer}>
+            <Text style={styles.careEmoji}>🐱</Text>
+          </View>
+
+          <View>
+            <Text style={styles.careName}>Aya</Text>
+            <Text style={styles.careType}>Jadwal makan</Text>
+          </View>
+        </View>
+
+        <View style={styles.timeContainer}>
+          <Text style={styles.time}>◷ 18:00</Text>
+        </View>
+      </Pressable>
+
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Hewan Peliharaan</Text>
+
+        <Pressable>
+          <Text style={styles.seeAll}>Lihat Semua ›</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.petsContainer}>
+        <Pressable style={styles.petCard}>
+          <View style={[styles.petImageContainer, styles.ayaBackground]}>
+            <Text style={styles.petEmoji}>🐱</Text>
+          </View>
+
+          <Text style={styles.petName}>Aya</Text>
+          <Text style={styles.petBreed}>Himalayan</Text>
+        </Pressable>
+
+        <Pressable style={styles.petCard}>
+          <View style={[styles.petImageContainer, styles.loopyBackground]}>
+            <Text style={styles.petEmoji}>🐱</Text>
+          </View>
+
+          <Text style={styles.petName}>Loopy</Text>
+          <Text style={styles.petBreed}>Domestic</Text>
+        </Pressable>
+      </View>
+
+      <Pressable style={styles.actionButton}>
+        <Text style={styles.actionIcon}>📅</Text>
+        <Text style={styles.actionText}>Lihat Jadwal</Text>
+        <Text style={styles.arrow}>›</Text>
+      </Pressable>
+
+      <Pressable style={styles.actionButtonOutline}>
+        <Text style={styles.actionIcon}>＋</Text>
+        <Text style={styles.actionTextOutline}>Tambah Hewan</Text>
+        <Text style={styles.arrowOutline}>›</Text>
+      </Pressable>
+    </ScrollView>
   );
 }
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
