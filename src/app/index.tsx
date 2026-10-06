@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, ToastAndroid } from "react-native";
 import { styles } from "../styles";
 
 export default function Index() {
@@ -93,13 +93,13 @@ export default function Index() {
         </Pressable>
       </View>
 
-      <Pressable style={styles.actionButton}>
+      <Pressable style={styles.actionButton} onPress={() => ToastAndroid.show("Jadwal Tidak Tersedia!", ToastAndroid.SHORT)}>
         <Text style={styles.actionIcon}>📅</Text>
         <Text style={styles.actionText}>Lihat Jadwal</Text>
         <Text style={styles.arrow}>›</Text>
       </Pressable>
 
-      <Pressable style={styles.actionButtonOutline}>
+      <Pressable style={styles.actionButtonOutline} onPress={() => ToastAndroid.show("Fitur ini belum tersedia!", ToastAndroid.SHORT)}>
         <Text style={styles.actionIcon}>＋</Text>
         <Text style={styles.actionTextOutline}>Tambah Hewan</Text>
         <Text style={styles.arrowOutline}>›</Text>
