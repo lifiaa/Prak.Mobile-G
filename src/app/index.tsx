@@ -1,4 +1,5 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { router } from "expo-router";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { styles } from "../styles";
 
 export default function Index() {
@@ -11,7 +12,8 @@ export default function Index() {
       <View style={styles.header}>
         <View>
           <Text style={styles.appName}>
-            Pet<Text style={styles.appNameGreen}>Care</Text> <Text style={styles.paw}>🐾</Text>
+            Pet<Text style={styles.appNameGreen}>Care</Text>{" "}
+            <Text style={styles.paw}>🐾</Text>
           </Text>
         </View>
 
@@ -99,7 +101,10 @@ export default function Index() {
         <Text style={styles.arrow}>›</Text>
       </Pressable>
 
-      <Pressable style={styles.actionButtonOutline}>
+      <Pressable
+        style={styles.actionButtonOutline}
+        onPress={() => router.push("/add-pet")}
+      >
         <Text style={styles.actionIcon}>＋</Text>
         <Text style={styles.actionTextOutline}>Tambah Hewan</Text>
         <Text style={styles.arrowOutline}>›</Text>
