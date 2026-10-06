@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { styles } from "../styles";
 import { useRouter } from "expo-router";
 
@@ -13,7 +13,8 @@ export default function Index() {
       <View style={styles.header}>
         <View>
           <Text style={styles.appName}>
-            Pet<Text style={styles.appNameGreen}>Care</Text> <Text style={styles.paw}>🐾</Text>
+            Pet<Text style={styles.appNameGreen}>Care</Text>{" "}
+            <Text style={styles.paw}>🐾</Text>
           </Text>
         </View>
 
@@ -101,7 +102,10 @@ export default function Index() {
         <Text style={styles.arrow}>›</Text>
       </Pressable>
 
-      <Pressable style={styles.actionButtonOutline} onPress={() => window.alert("Fitur ini belum tersedia!")}>
+<Pressable
+  style={styles.actionButtonOutline}
+onPress={() => router.push("/add-pet" as any)}
+>
         <Text style={styles.actionIcon}>＋</Text>
         <Text style={styles.actionTextOutline}>Tambah Hewan</Text>
         <Text style={styles.arrowOutline}>›</Text>
