@@ -316,4 +316,132 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     color: "#287A5B",
   },
+
+    petListTitle: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#13293D",
+    marginBottom: 8,
+  },
+
+  petListSubtitle: {
+    fontSize: 15,
+    color: "#6B7C8F",
+    marginBottom: 25,
+  },
+
+  petListContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 14,
+  },
+
+  petListCard: {
+    width: "47%",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 25,
+    padding: 18,
+    alignItems: "center",
+    shadowColor: "#17324D",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+
+  petListImageContainer: {
+    width: 75,
+    height: 75,
+    borderRadius: 50,
+    backgroundColor: "#FFF4DF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  petListEmoji: {
+    fontSize: 45,
+  },
+
+  petListName: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#172B3A",
+    marginBottom: 4,
+  },
+
+  petListBreed: {
+    fontSize: 14,
+    color: "#718090",
+    marginBottom: 4,
+  },
+
+  petListAge: {
+    fontSize: 13,
+    color: "#4FA47C",
+    fontWeight: "600",
+  },
+
+    petDetailImageContainer: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: "#FFF4DF",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 25,
+    marginBottom: 20,
+  },
+
+  petDetailEmoji: {
+    fontSize: 80,
+  },
+
+  petDetailName: {
+    fontSize: 30,
+    fontWeight: "800",
+    color: "#13293D",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+
+  petDetailBreed: {
+    fontSize: 16,
+    color: "#718090",
+    textAlign: "center",
+    marginBottom: 25,
+  },
+
+  petDetailInfo: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+  },
+
+  petDetailLabel: {
+    fontSize: 14,
+    color: "#718090",
+    marginBottom: 3,
+  },
+
+  petDetailValue: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#172B3A",
+    marginBottom: 15,
+  },
+
+  petDetailDescription: {
+    fontSize: 16,
+    lineHeight: 25,
+    color: "#66788A",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    padding: 20,
+  },
 });

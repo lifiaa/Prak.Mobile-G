@@ -1,7 +1,9 @@
-import { View, Text, ScrollView, Pressable, ToastAndroid } from "react-native";
+import { View, Text, ScrollView, Pressable, Alert } from "react-native";
 import { styles } from "../styles";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
   return (
     <ScrollView
       style={styles.container}
@@ -68,7 +70,7 @@ export default function Index() {
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Hewan Peliharaan</Text>
 
-        <Pressable>
+        <Pressable onPress={() => router.push("/pets")}>
           <Text style={styles.seeAll}>Lihat Semua ›</Text>
         </Pressable>
       </View>
@@ -93,13 +95,13 @@ export default function Index() {
         </Pressable>
       </View>
 
-      <Pressable style={styles.actionButton} onPress={() => ToastAndroid.show("Jadwal Tidak Tersedia!", ToastAndroid.SHORT)}>
+      <Pressable style={styles.actionButton} onPress={() => window.alert("Jadwal Tidak Tersedia!")}>
         <Text style={styles.actionIcon}>📅</Text>
         <Text style={styles.actionText}>Lihat Jadwal</Text>
         <Text style={styles.arrow}>›</Text>
       </Pressable>
 
-      <Pressable style={styles.actionButtonOutline} onPress={() => ToastAndroid.show("Fitur ini belum tersedia!", ToastAndroid.SHORT)}>
+      <Pressable style={styles.actionButtonOutline} onPress={() => window.alert("Fitur ini belum tersedia!")}>
         <Text style={styles.actionIcon}>＋</Text>
         <Text style={styles.actionTextOutline}>Tambah Hewan</Text>
         <Text style={styles.arrowOutline}>›</Text>
