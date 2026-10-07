@@ -10,17 +10,77 @@ export default function AddPet() {
   const [age, setAge] = useState("");
 
   const handleSubmit = () => {
-    if (!name.trim()) {
-      Alert.alert("Validasi", "Nama hewan wajib diisi.");
-      return;
+    const cleanName = name.trim();
+    const cleanType = type.trim();
+    const cleanBreed = breed.trim();
+    const cleanAge = age.trim();
+
+    if (!cleanName) {
+        Alert.alert("Validasi", "Nama hewan wajib diisi.");
+        return;
     }
 
-    if (!age.trim() || isNaN(Number(age))) {
-      Alert.alert("Validasi", "Umur harus berupa angka.");
-      return;
+    if (cleanName.length < 2) {
+        Alert.alert("Validasi", "Nama hewan minimal 2 karakter.");
+        return;
     }
 
-    Alert.alert("Berhasil", `${name} berhasil ditambahkan sebagai ${type}.`);
+    if (cleanName.length > 30) {
+        Alert.alert("Validasi", "Nama hewan maksimal 30 karakter.");
+        return;
+    }
+
+    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(cleanName)) {
+        Alert.alert("Validasi", "Nama hewan hanya boleh berisi huruf dan spasi.");
+        return;
+    }
+
+    if (!cleanType) {
+        Alert.alert("Validasi", "Jenis hewan wajib diisi.");
+        return;
+    }
+
+    if (cleanType.length < 3) {
+        Alert.alert("Validasi", "Jenis hewan minimal 3 karakter.");
+        return;
+    }
+
+    if (!cleanBreed) {
+        Alert.alert("Validasi", "Ras wajib diisi.");
+        return;
+    }
+
+    if (cleanBreed.length < 2) {
+        Alert.alert("Validasi", "Ras minimal 2 karakter.");
+        return;
+    }
+
+    if (!cleanAge) {
+        Alert.alert("Validasi", "Umur wajib diisi.");
+        return;
+    }
+
+    if (!/^\d+$/.test(cleanAge)) {
+        Alert.alert("Validasi", "Umur harus berupa angka.");
+        return;
+    }
+
+    const ageNumber = Number(cleanAge);
+
+    if (ageNumber < 0) {
+        Alert.alert("Validasi", "Umur tidak boleh kurang dari 0.");
+        return;
+    }
+
+    if (ageNumber > 100) {
+        Alert.alert("Validasi", "Umur tidak boleh lebih dari 100 tahun.");
+        return;
+    }
+
+    Alert.alert(
+        "Berhasil",
+        `${cleanName} berhasil ditambahkan sebagai ${cleanType}.`
+    );
   };
 
   return (
