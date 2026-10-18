@@ -7,7 +7,8 @@ export const pets: Pet[] = [
     type: "Cat",
     breed: "Himalayan",
     age: 2,
-    emoji: "🐱",
+    ageCategories: "Adult",
+    image: require("../../assets/cats/aya.jpeg"),
     description: "Aya adalah kucing Himalayan yang manis dan suka bermain.",
   },
   {
@@ -16,7 +17,18 @@ export const pets: Pet[] = [
     type: "Cat",
     breed: "Domestic",
     age: 1,
-    emoji: "🐱",
+    image: require("../../assets/cats/loopy.jpeg"),
+    ageCategories: "Child",
     description: "Loopy adalah kucing domestic yang aktif dan penuh rasa ingin tahu.",
   },
+  {
+    id: "3",
+    name: "Milo",
+    type: "Cat",
+    breed: "Persia",
+    age: 4,
+    ageCategories: "Adult",
+    image: require("../../assets/cats/milo.jpeg"),
+    description: "Milo adalah kucing Persia yang aktif dan penuh rasa ingin tahu.",
+}
 ];
