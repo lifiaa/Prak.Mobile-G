@@ -25,6 +25,10 @@ export default function Layout() {
           // options={{ title: "Tambah Hewan" }}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="petCareAI"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ThemeProvider>
   );

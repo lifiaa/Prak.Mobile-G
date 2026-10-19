@@ -312,6 +312,7 @@ export const styles = StyleSheet.create({
     color: "#64748B",
     lineHeight: 25,
     marginBottom: 28,
+    marginRight: 20,
   },
   summaryContainer: {
     flexDirection: "row",

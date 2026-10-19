@@ -268,25 +268,45 @@ export default function Home() {
                 { color: theme.subtitle },
               ]}
             >
-              Hewan kesayanganmu sudah menunggu untuk perawatan hari ini.
+            Hewan kesayanganmu sudah menunggu {"\n"}
+              untuk perawatan hari ini.
             </Text>
           </View>
 
-          <View
+          {/* Fitur AI Assistant */}
+          <Pressable
+            onPress={() => router.push("/petCareAI")}
             style={[
               styles.greetingBadge,
               {
                 backgroundColor: darkMode ? "#24364B" : "#E2E8F0",
                 borderColor: theme.border,
+                width: 60,
+                height: 60,
+                borderRadius: 20,
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 8,
+                paddingHorizontal: 6,
               },
             ]}
           >
-            <Ionicons
-              name="sparkles-outline"
-              size={21}
-              color={theme.accent}
-            />
-          </View>
+          <Ionicons
+            name="sparkles-outline"
+            size={25}
+            color={theme.accent}
+          />
+          <Text
+            style={{
+              color: theme.accent,
+              fontSize: 11,
+              fontWeight: "700",
+              marginTop: 4,
+            }}
+          >
+            Tanya AI
+          </Text>
+          </Pressable>
         </View>
 
         {/* HERO */}
