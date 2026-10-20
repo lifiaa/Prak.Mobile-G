@@ -11,10 +11,12 @@ import { pets } from "../../data/pets";
 import { styles, themeColors } from "../../styles";
 import { useTheme } from "../../context/ThemeContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { usePets } from "../../context/PetContext";
 
 export default function PetList() {
   const router = useRouter();
   const { darkMode } = useTheme();
+  const { pets } = usePets();
   const theme = darkMode ? themeColors.dark : themeColors.light;
 
   return (

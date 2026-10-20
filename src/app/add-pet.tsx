@@ -15,9 +15,12 @@ import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import { useTheme } from "../context/ThemeContext";
 import { themeColors } from "../styles";
+import { usePets } from "../context/PetContext";
+import type { Pet } from "../types/pet";
 
 export default function AddPet() {
   const router = useRouter();
+  const { addPet } = usePets();
   const { darkMode } = useTheme();
   const theme = darkMode ? themeColors.dark : themeColors.light;
 
@@ -41,69 +44,58 @@ export default function AddPet() {
     const cleanAge = age.trim();
 
     if (!cleanName) {
-      Alert.alert("Validasi", "Nama hewan wajib diisi.");
+      window.alert("Nama hewan wajib diisi.");
       return;
     }
 
-    if (cleanName.length < 2) {
-      Alert.alert("Validasi", "Nama hewan minimal 2 karakter.");
-      return;
-    }
-
-    if (cleanName.length > 30) {
-      Alert.alert("Validasi", "Nama hewan maksimal 30 karakter.");
+    if (cleanName.length < 2 || cleanName.length > 30) {
+      window.alert("Nama hewan harus terdiri dari 2–30 karakter.");
       return;
     }
 
     if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(cleanName)) {
-      Alert.alert(
-        "Validasi",
-        "Nama hewan hanya boleh berisi huruf dan spasi."
-      );
-      return;
-    }
-
-    if (!cleanType) {
-      Alert.alert("Validasi", "Jenis hewan wajib diisi.");
+      window.alert("Nama hewan hanya boleh berisi huruf dan spasi.");
       return;
     }
 
     if (cleanType.length < 3) {
-      Alert.alert("Validasi", "Jenis hewan minimal 3 karakter.");
-      return;
-    }
-
-    if (!cleanBreed) {
-      Alert.alert("Validasi", "Ras wajib diisi.");
+      window.alert("Jenis hewan wajib diisi, minimal 3 karakter.");
       return;
     }
 
     if (cleanBreed.length < 2) {
-      Alert.alert("Validasi", "Ras minimal 2 karakter.");
-      return;
-    }
-
-    if (!cleanAge) {
-      Alert.alert("Validasi", "Umur wajib diisi.");
+      window.alert("Ras wajib diisi, minimal 2 karakter.");
       return;
     }
 
     if (!/^\d+$/.test(cleanAge)) {
-      Alert.alert("Validasi", "Umur harus berupa angka.");
+      window.alert("Umur wajib diisi dengan angka.");
       return;
     }
 
     const ageNumber = Number(cleanAge);
 
     if (ageNumber > 100) {
-      Alert.alert("Validasi", "Umur tidak boleh lebih dari 100 tahun.");
+      window.alert("Umur tidak boleh lebih dari 100 tahun.");
       return;
     }
 
-    Alert.alert(
-      "Berhasil",
-      `${cleanName} berhasil ditambahkan sebagai ${cleanType}.`
-    );
+    const ageCategories =
+      ageNumber <= 1 ? "Child" : ageNumber < 7 ? "Adult" : "Senior";
+
+    const newPet: Pet = {
+      id: `pet-${Date.now()}`,
+      name: cleanName,
+      type: cleanType,
+      breed: cleanBreed,
+      age: ageNumber,
+      ageCategories,
+      image: require("../../assets/cats/aya.jpeg"),
+      description: `${cleanName} adalah ${cleanType.toLowerCase()} yang menjadi bagian dari keluarga PetCare+.`,
+    };
+
+    addPet(newPet);
+    router.replace("/pets");
   };
 
   return (

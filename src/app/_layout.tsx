@@ -1,9 +1,11 @@
 import { Stack } from "expo-router";
 import { ThemeProvider } from "../context/ThemeContext";
+import { PetProvider } from "../context/PetContext";
 
 export default function Layout() {
   return (
     <ThemeProvider>
+      <PetProvider>
       <Stack>
         <Stack.Screen
           name="index"
@@ -30,6 +32,7 @@ export default function Layout() {
           options={{ headerShown: false }}
         />
       </Stack>
+      </PetProvider>
     </ThemeProvider>
   );
 }

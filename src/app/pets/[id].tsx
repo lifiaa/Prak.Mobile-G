@@ -6,18 +6,18 @@ import {
   Image,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { pets } from "../../data/pets";
+import { usePets } from "../../context/PetContext";
 import { styles } from "../../styles";
 import { useTheme } from "../../context/ThemeContext";
 import { themeColors } from "../../styles";
 
 export default function PetDetail() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();  const router = useRouter();
   const { darkMode } = useTheme();
+  const { pets } = usePets();
   const theme = darkMode ? themeColors.dark : themeColors.light;
   
-  const pet = pets.find((item) => item.id === id);
+const pet = pets.find((item) => item.id === String(id));
 
   if (!pet) {
     return (
