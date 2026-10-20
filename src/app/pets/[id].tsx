@@ -12,13 +12,13 @@ import { useTheme } from "../../context/ThemeContext";
 import { themeColors } from "../../styles";
 
 export default function PetDetail() {
-  const { id } = useLocalSearchParams<{ id: string }>();  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const { darkMode } = useTheme();
   const { pets } = usePets();
   const theme = darkMode ? themeColors.dark : themeColors.light;
   
 const pet = pets.find((item) => item.id === String(id));
-
   if (!pet) {
     return (
       <View style={styles.container}>
