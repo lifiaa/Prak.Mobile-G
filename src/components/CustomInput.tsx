@@ -1,14 +1,27 @@
-import { StyleSheet, TextInput, TextInputProps } from "react-native";
 
-export default function CustomInput(props: TextInputProps) {
-  return (
-    <TextInput
-      {...props}
-      style={[styles.input, props.style]}
-      placeholderTextColor="#718090"
-    />
-  );
-}
+import { forwardRef } from "react";
+import {
+  StyleSheet,
+  TextInput,
+  type TextInputProps,
+} from "react-native";
+
+const CustomInput = forwardRef<TextInput, TextInputProps>(
+  (props, ref) => {
+    return (
+      <TextInput
+        ref={ref}
+        {...props}
+        style={[styles.input, props.style]}
+        placeholderTextColor="#718090"
+      />
+    );
+  }
+);
+
+CustomInput.displayName = "CustomInput";
+
+export default CustomInput;
 
 const styles = StyleSheet.create({
   input: {

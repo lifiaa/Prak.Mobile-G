@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   View,
   Pressable,
   StatusBar,
+  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -23,6 +24,7 @@ export default function AddPet() {
   const { addPet } = usePets();
   const { darkMode } = useTheme();
   const theme = darkMode ? themeColors.dark : themeColors.light;
+  const nameInputRef = useRef<TextInput>(null);
 
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -45,6 +47,7 @@ export default function AddPet() {
 
     if (!cleanName) {
       window.alert("Nama hewan wajib diisi.");
+      nameInputRef.current?.focus();
       return;
     }
 
@@ -228,6 +231,7 @@ export default function AddPet() {
             </Text>
 
             <CustomInput
+              ref={nameInputRef}
               style={[
                 localStyles.input,
                 {
