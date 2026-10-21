@@ -40,30 +40,33 @@ Project ini menggunakan:
 ## 📂 Struktur Project
 ```text
 Prak.Mobile-G/
-│
+├── assets/
 ├── src/
 │   ├── app/
 │   │   ├── _layout.tsx
 │   │   ├── index.tsx
-│   │   ├── pets.tsx
-│   │   ├── pet-detail.tsx
-│   │   └── add-pet.tsx
-│   │
+│   │   ├── add-pet.tsx
+│   │   ├── petCareAI.tsx
+│   │   └── pets/
+│   │       ├── _layout.tsx
+│   │       ├── index.tsx
+│   │       └── [id].tsx
 │   ├── components/
-│   │   ├── CustomButton.tsx
-│   │   ├── CustomInput.tsx
-│   │   ├── PetCard.tsx
-│   │   └── SummaryCard.tsx
-│   │
+│   ├── constants/
+│   ├── context/
+│   │   ├── PetContext.tsx
+│   │   └── ThemeContext.tsx
 │   ├── data/
-│   │   └── pets.ts
-│   │
+│   ├── docs/
+│   ├── hooks/
 │   ├── types/
 │   │   └── pet.ts
-│   │
+│   ├── utils/
 │   └── styles.ts
-│
-├── assets/
 ├── package.json
+├── package-lock.json
+├── app.json
 ├── tsconfig.json
-└── README.md
+├── README.md
+└── .gitignore
+
