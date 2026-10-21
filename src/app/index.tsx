@@ -7,7 +7,7 @@ import {
   StatusBar,
   Switch,
   Image,
-  ToastAndroid,
+  Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -164,9 +164,12 @@ export default function Home() {
       title: "Schedule",
       subtitle: "Jadwal perawatan hewan",
       icon: "calendar-outline" as const,
-      onPress: () =>{
-        ToastAndroid.show("Fitur Schedule belum tersedia.", ToastAndroid.SHORT)
-      }
+      onPress: () => {
+        Alert.alert(
+          "Informasi",
+          "Fitur Schedule belum tersedia."
+        );
+},
     },
     {
       title: "Add Pet",
