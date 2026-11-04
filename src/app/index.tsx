@@ -174,6 +174,12 @@ export default function Home() {
       icon: "add-circle-outline" as const,
       onPress: () => router.push("/add-pet"),
     },
+    {
+      title: "Pet Explorer",
+      subtitle: "Jelajahi berbagai jenis hewan",
+      icon: "search-outline" as const,
+      onPress: () => router.push("/pet-explorer"),
+    },
   ];
 
   return (
