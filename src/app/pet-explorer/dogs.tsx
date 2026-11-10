@@ -32,20 +32,19 @@ export default function DogsScreen() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadDogs = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const data = await getDogs();
-        setDogs(data);
-      } catch {
-        setError("Gagal mengambil data anjing. Silakan coba lagi.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    setError("");
 
-    loadDogs();
+    getDogs()
+      .then((data) => {
+        setDogs(data);
+      })
+      .catch(() => {
+        setError("Gagal mengambil data anjing. Silakan coba lagi.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const styles = StyleSheet.create({

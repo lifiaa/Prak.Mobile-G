@@ -44,52 +44,61 @@ const getBreedDetails = async (
   return response.json();
 };
 
-const getPetImages = async (
+const checkResponse = (
+  response: Response,
+  species: "cat" | "dog"
+): Promise<Response> => {
+  if (!response.ok) {
+    return Promise.reject(
+      new Error(
+        `Gagal mengambil data ${species === "cat" ? "kucing" : "anjing"}`
+      )
+    );
+  }
+
+  return Promise.resolve(response);
+};
+
+const getPetImages = (
   species: "cat" | "dog"
 ): Promise<PetExplorer[]> => {
   const baseUrl = species === "cat" ? CAT_API : DOG_API;
   const apiKey = species === "cat" ? CAT_API_KEY : DOG_API_KEY;
 
-  const response = await fetch(
+  return fetch(
     `${baseUrl}/images/search?limit=10&has_breeds=1&include_breeds=1`,
     {
       headers: {
         "x-api-key": apiKey,
       },
     }
-  );
+  )
+    .then((response) => checkResponse(response, species))
+    .then((response) => response.json())
+    .then((images: ApiImage[]) => {
+      return Promise.all(
+        images.map(async (item) => {
+          let breed = item.breeds?.[0];
 
-  if (!response.ok) {
-    throw new Error(
-      `Gagal mengambil data ${species === "cat" ? "kucing" : "anjing"}`
-    );
-  }
+          if (!breed && item.breed_ids) {
+            breed =
+              (await getBreedDetails(species, item.breed_ids)) ?? undefined;
+          }
 
-  const images: ApiImage[] = await response.json();
-
-  const pets = await Promise.all(
-    images.map(async (item) => {
-      let breed = item.breeds?.[0];
-
-      if (!breed && item.breed_ids) {
-        breed = (await getBreedDetails(species, item.breed_ids)) ?? undefined;
-      }
-
-      return {
-        id: item.id,
-        url: item.url,
-        width: item.width,
-        height: item.height,
-        species,
-        breed: breed?.name || "Unknown Breed",
-        origin: breed?.origin || "Unknown",
-        description: breed?.description || "No description available.",
-        temperament: breed?.temperament || "Unknown",
-      };
-    })
-  );
-
-  return pets;
+          return {
+            id: item.id,
+            url: item.url,
+            width: item.width,
+            height: item.height,
+            species,
+            breed: breed?.name || "Unknown Breed",
+            origin: breed?.origin || "Unknown",
+            description: breed?.description || "No description available.",
+            temperament: breed?.temperament || "Unknown",
+          };
+        })
+      );
+    });
 };
 
 export const getCats = (): Promise<PetExplorer[]> => {

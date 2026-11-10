@@ -32,20 +32,19 @@ export default function CatsScreen() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadCats = async () => {
-      try {
-        setLoading(true);
-        setError("");
-        const data = await getCats();
-        setCats(data);
-      } catch {
-        setError("Gagal mengambil data kucing. Silakan coba lagi.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    setError("");
 
-    loadCats();
+    getCats()
+      .then((data) => {
+        setCats(data);
+      })
+      .catch(() => {
+        setError("Gagal mengambil data kucing. Silakan coba lagi.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const styles = StyleSheet.create({
