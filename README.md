@@ -70,3 +70,19 @@ Prak.Mobile-G/
 ├── README.md
 └── .gitignore
 
+## Implementasi Custom & Pre-built Async Function
+
+Pada aplikasi PetCare, penerapan Custom dan Pre-built Async Function diimplementasikan pada fitur Dark Mode menggunakan AsyncStorage.
+
+### Custom Async Function
+- `loadTheme()`: Mengambil preferensi tema pengguna yang sebelumnya disimpan.
+- `saveTheme()`: Menyimpan perubahan preferensi tema pengguna.
+
+### Pre-built Async Function
+- `AsyncStorage.getItem()`: Mengambil data preferensi tema dari penyimpanan lokal.
+- `AsyncStorage.setItem()`: Menyimpan preferensi tema ke penyimpanan lokal.
+
+### Hasil Pengujian
+Pengujian dilakukan dengan mengaktifkan Dark Mode, kemudian menutup dan membuka kembali aplikasi PetCare. Hasil pengujian menunjukkan bahwa preferensi Dark Mode tetap tersimpan dan diterapkan setelah aplikasi dibuka kembali.
+
+**Kesimpulan:** Implementasi Custom dan Pre-built Async Function berhasil diterapkan pada fitur Dark Mode. AsyncStorage memungkinkan aplikasi menyimpan dan mengambil preferensi tema pengguna secara asynchronous.

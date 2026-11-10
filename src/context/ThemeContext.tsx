@@ -17,8 +17,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // Fungsinya untuk mengambil preferensi tema yang sebelumnya disimpan pengguna.
     const loadTheme = async () => {
       try {
+        // Pre-built Async Function: AsyncStorage.getItem()	Mengambil data tema yang tersimpan
         const savedTheme = await AsyncStorage.getItem(THEME_KEY);
 
         if (savedTheme !== null) {
@@ -36,9 +38,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!isLoaded) return;
-
+    
+    // Fungsinya untuk menyimpan perubahan tema pengguna ke penyimpanan lokal agar preferensi tersebut tidak hilang ketika aplikasi ditutup.
     const saveTheme = async () => {
       try {
+        // Pre-built Async Function: AsyncStorage.setItem()	Menyimpan preferensi tema
         await AsyncStorage.setItem(THEME_KEY, String(darkMode));
       } catch (error) {
         console.error("Gagal menyimpan preferensi tema:", error);
