@@ -28,6 +28,18 @@ export default function Layout() {
             name="petCareAI"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="pet-explorer"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="pet-explorer/cats"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="pet-explorer/dogs"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </PetProvider>
     </ThemeProvider>
