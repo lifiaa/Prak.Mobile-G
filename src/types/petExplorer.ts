@@ -1,3 +1,4 @@
+// Interface: cetakan struktur Object yang menentukan properti dan tipe datanya.
 export interface PetExplorer {
   id: string;
   url: string;

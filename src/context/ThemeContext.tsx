@@ -17,10 +17,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Fungsinya untuk mengambil preferensi tema yang sebelumnya disimpan pengguna.
+    // Fungsinya untuk mengambil preferensi tema yang sebelumnya disimpan pengguna.fungsi asynchronous yang kita buat sendiri menggunakan keyword async.
     const loadTheme = async () => {
       try {
-        // Pre-built Async Function: AsyncStorage.getItem()	Mengambil data tema yang tersimpan
+        // Pre-built Async Function: getItem()	Mengambil data tema yang tersimpan
+        // Pre-built Async Function adalah fungsi asynchronous yang sudah disediakan oleh library atau package, sehingga kita tidak perlu membuat implementasi dasarnya sendiri.
         const savedTheme = await AsyncStorage.getItem(THEME_KEY);
 
         if (savedTheme !== null) {
@@ -45,6 +46,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         await AsyncStorage.setItem(THEME_KEY, String(darkMode));
       } catch (error) {
         console.error("Gagal menyimpan preferensi tema:", error);
+      } finally {
+        setIsLoaded(true);
       }
     };
 
@@ -71,3 +74,7 @@ export function useTheme() {
 
   return context;
 }
+
+// loadTheme() dibuat sendiri oleh programmer.
+// async membuat fungsi tersebut menghasilkan Promise.
+// await menunggu proses pengambilan data selesai.

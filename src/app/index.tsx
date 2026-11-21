@@ -108,14 +108,17 @@ export default function Home() {
   const router = useRouter();
   const { darkMode, toggleTheme } = useTheme();
   const theme = darkMode ? themeColors.dark : themeColors.light;
+  const [showInfo, setShowInfo] = useState(true);
+  const [count, setHitung] = useState(0);
+
 
   // STATUS TUGAS PERAWATAN
-  const [completedTasks, setCompletedTasks] = useState<
+  const [TaskSelesai, setTaskSelesai] = useState<
     Record<string, boolean>
   >({});
 
   const completedCount = careTasks.filter(
-    (task) => completedTasks[task.id]
+    (task) => TaskSelesai[task.id]
   ).length;
 
   const totalTasks = careTasks.length;
@@ -172,6 +175,24 @@ export default function Home() {
 },
     },
     {
+      title: "User Profile",
+      subtitle: "Hubungi dokter hewan",
+      icon: "call-outline" as const,
+      onPress: () => router.push("/profile"),
+    },
+    {
+      title: "Telephony",
+      subtitle: "Hubungi dokter hewan",
+      icon: "call-outline" as const,
+      onPress: () => router.push("/telephony"),
+    },
+    {
+      title: "Pet Location",
+      subtitle: "Lihat lokasi perangkat saat ini",
+      icon: "location-outline" as const,
+      onPress: () => router.push("/location"),
+    },
+    {
       title: "Add Pet",
       subtitle: "Tambahkan hewan peliharaan",
       icon: "add-circle-outline" as const,
@@ -183,8 +204,15 @@ export default function Home() {
       icon: "search-outline" as const,
       onPress: () => router.push("/pet-explorer"),
     },
+    {
+      title: "App Lifecycle",
+      subtitle: "Pantau status aplikasi",
+      icon: "phone-portrait-outline" as const,
+      onPress: () => router.push("/lifecycle"),
+    },
   ];
 
+  
   return (
   <SafeAreaView
     edges={["top"]}
@@ -364,6 +392,7 @@ export default function Home() {
             },
           ]}
         >
+
           <View style={styles.sectionHeader}>
             <View>
               <Text
@@ -566,13 +595,13 @@ export default function Home() {
           </View>
 
           {careTasks.map((task) => {
-            const isCompleted = Boolean(completedTasks[task.id]);
+            const isCompleted = Boolean(TaskSelesai[task.id]);
 
             return (
               <Pressable
                 key={task.id}
                 onPress={() =>
-                  setCompletedTasks((previous) => ({
+                  setTaskSelesai((previous) => ({
                     ...previous,
                     [task.id]: !previous[task.id],
                   }))

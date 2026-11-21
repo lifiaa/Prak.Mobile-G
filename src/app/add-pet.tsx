@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import {
-  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +17,7 @@ import { useTheme } from "../context/ThemeContext";
 import { themeColors } from "../styles";
 import { usePets } from "../context/PetContext";
 import type { Pet } from "../types/pet";
+import { showMessage } from "../lib/notification";
 
 export default function AddPet() {
   const router = useRouter();
@@ -30,6 +30,7 @@ export default function AddPet() {
   const [type, setType] = useState("");
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleBack = () => {
     if (router.canGoBack()) {
@@ -39,47 +40,67 @@ export default function AddPet() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (isSaving) return;
+
     const cleanName = name.trim();
     const cleanType = type.trim();
     const cleanBreed = breed.trim();
     const cleanAge = age.trim();
 
     if (!cleanName) {
-      window.alert("Nama hewan wajib diisi.");
+      showMessage("Validasi", "Nama hewan wajib diisi.");
       nameInputRef.current?.focus();
       return;
     }
 
     if (cleanName.length < 2 || cleanName.length > 30) {
-      window.alert("Nama hewan harus terdiri dari 2–30 karakter.");
+      showMessage(
+        "Validasi",
+        "Nama hewan harus terdiri dari 2–30 karakter."
+      );
       return;
     }
 
     if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(cleanName)) {
-      window.alert("Nama hewan hanya boleh berisi huruf dan spasi.");
+      showMessage(
+        "Validasi",
+        "Nama hewan hanya boleh berisi huruf dan spasi."
+      );
       return;
     }
 
     if (cleanType.length < 3) {
-      window.alert("Jenis hewan wajib diisi, minimal 3 karakter.");
+      showMessage(
+        "Validasi",
+        "Jenis hewan wajib diisi, minimal 3 karakter."
+      );
       return;
     }
 
     if (cleanBreed.length < 2) {
-      window.alert("Ras wajib diisi, minimal 2 karakter.");
+      showMessage(
+        "Validasi",
+        "Ras wajib diisi, minimal 2 karakter."
+      );
       return;
     }
 
     if (!/^\d+$/.test(cleanAge)) {
-      window.alert("Umur wajib diisi dengan angka.");
+      showMessage(
+        "Validasi",
+        "Umur wajib diisi dengan angka."
+      );
       return;
     }
 
     const ageNumber = Number(cleanAge);
 
     if (ageNumber > 100) {
-      window.alert("Umur tidak boleh lebih dari 100 tahun.");
+      showMessage(
+        "Validasi",
+        "Umur tidak boleh lebih dari 100 tahun."
+      );
       return;
     }
 
@@ -87,18 +108,38 @@ export default function AddPet() {
       ageNumber <= 1 ? "Child" : ageNumber < 7 ? "Adult" : "Senior";
 
     const newPet: Pet = {
-      id: `pet-${Date.now()}`,
+      id: "",
       name: cleanName,
       type: cleanType,
       breed: cleanBreed,
       age: ageNumber,
       ageCategories,
       image: require("../../assets/cats/aya.jpeg"),
+      image_url: null,
       description: `${cleanName} adalah ${cleanType.toLowerCase()} yang menjadi bagian dari keluarga PetCare+.`,
     };
 
-    addPet(newPet);
-    router.replace("/pets");
+    try {
+      setIsSaving(true);
+
+      await addPet(newPet);
+
+      showMessage(
+        "Berhasil",
+        "Hewan berhasil ditambahkan!"
+      );
+
+      router.replace("/pets");
+    } catch (error) {
+      console.error("Gagal menambahkan hewan:", error);
+
+      showMessage(
+        "Gagal",
+        "Data hewan tidak berhasil disimpan. Silakan coba lagi."
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -114,7 +155,6 @@ export default function AddPet() {
         backgroundColor={theme.background}
       />
 
-      {/* HEADER FIXED */}
       <View
         style={[
           localStyles.header,
@@ -152,6 +192,7 @@ export default function AddPet() {
           >
             PetCare+
           </Text>
+
           <Text
             style={[
               localStyles.headerSubtitle,
@@ -165,14 +206,12 @@ export default function AddPet() {
         <View style={localStyles.headerButtonPlaceholder} />
       </View>
 
-      {/* FORM YANG BISA DI-SCROLL */}
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={localStyles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* JUDUL FORM */}
         <View style={localStyles.heading}>
           <View
             style={[
@@ -209,7 +248,6 @@ export default function AddPet() {
           </Text>
         </View>
 
-        {/* FORM INPUT */}
         <View
           style={[
             localStyles.form,
@@ -219,7 +257,6 @@ export default function AddPet() {
             },
           ]}
         >
-          {/* NAMA HEWAN */}
           <View style={localStyles.field}>
             <Text
               style={[
@@ -247,7 +284,6 @@ export default function AddPet() {
             />
           </View>
 
-          {/* JENIS HEWAN */}
           <View style={localStyles.field}>
             <Text
               style={[
@@ -274,7 +310,6 @@ export default function AddPet() {
             />
           </View>
 
-          {/* RAS HEWAN */}
           <View style={localStyles.field}>
             <Text
               style={[
@@ -301,7 +336,6 @@ export default function AddPet() {
             />
           </View>
 
-          {/* UMUR HEWAN */}
           <View style={localStyles.field}>
             <Text
               style={[
@@ -329,21 +363,20 @@ export default function AddPet() {
             />
           </View>
 
-          {/* TOMBOL SIMPAN */}
           <CustomButton
-            title="Tambah Hewan"
+            title={isSaving ? "Menyimpan..." : "Tambah Hewan"}
             onPress={handleSubmit}
             style={{ marginTop: 8 }}
           />
         </View>
 
-        {/* FOOTER */}
         <View style={localStyles.footer}>
           <Ionicons
             name="shield-checkmark-outline"
             size={16}
             color={theme.secondary}
           />
+
           <Text
             style={[
               localStyles.footerText,

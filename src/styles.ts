@@ -232,6 +232,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingTop: 4,
+    paddingHorizontal: 5,
   },
   footerText: {
     fontSize: 9,

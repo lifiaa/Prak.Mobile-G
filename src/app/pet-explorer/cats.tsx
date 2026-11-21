@@ -35,6 +35,7 @@ export default function CatsScreen() {
     setLoading(true);
     setError("");
 
+    // .then() digunakan untuk menjalankan kode ketika Promise berhasil diselesaikan.
     getCats()
       .then((data) => {
         setCats(data);
@@ -42,6 +43,7 @@ export default function CatsScreen() {
       .catch(() => {
         setError("Gagal mengambil data kucing. Silakan coba lagi.");
       })
+      // tetap jalan apapun kondisinya
       .finally(() => {
         setLoading(false);
       });

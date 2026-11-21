@@ -22,7 +22,7 @@ export const pets: Pet[] = [
     description: "Loopy adalah kucing domestic yang aktif dan penuh rasa ingin tahu.",
   },
   {
-    id: "3",
+    id: "milo",
     name: "Milo",
     type: "Cat",
     breed: "Persia",
