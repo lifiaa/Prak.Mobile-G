@@ -39,15 +39,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!isLoaded) return;
-    // Fungsinya untuk menyimpan perubahan tema pengguna ke penyimpanan lokal agar preferensi tersebut tidak hilang ketika aplikasi ditutup.
+
     const saveTheme = async () => {
       try {
-        // Pre-built Async Function: AsyncStorage.setItem()	Menyimpan preferensi tema
         await AsyncStorage.setItem(THEME_KEY, String(darkMode));
       } catch (error) {
         console.error("Gagal menyimpan preferensi tema:", error);
-      } finally {
-        setIsLoaded(true);
       }
     };
 
