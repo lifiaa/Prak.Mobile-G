@@ -1,4 +1,4 @@
-import { Stack, Redirect, useSegments } from "expo-router";
+import { Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import { ThemeProvider } from "../context/ThemeContext";
 import { PetProvider } from "../context/PetContext";
@@ -6,10 +6,6 @@ import { AuthProvider, useAuth } from "../context/AuthContext";
 
 function RootNavigator() {
   const { session, isLoading } = useAuth();
-  const segments = useSegments();
-
-  const isAuthScreen =
-    segments[0] === "login" || segments[0] === "register";
 
   if (isLoading) {
     return (
@@ -26,64 +22,29 @@ function RootNavigator() {
     );
   }
 
-  if (!session && !isAuthScreen) {
-    return <Redirect href="/login" />;
-  }
-
-  if (session && isAuthScreen) {
-    return <Redirect href="/" />;
-  }
-
   return (
-    <Stack>
-      <Stack.Screen
-        name="register"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="login"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="profile"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="pets/index"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="pets/[id]"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="add-pet"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="edit-pet"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="petCareAI"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="pet-explorer"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="pet-explorer/cats"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="pet-explorer/dogs"
-        options={{ headerShown: false }}
-      />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!session}>
+        <Stack.Screen name="login" />
+        <Stack.Screen name="register" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!!session}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="notification" />
+        <Stack.Screen name="profile" />
+        <Stack.Screen name="pets/index" />
+        <Stack.Screen name="pets/[id]" />
+        <Stack.Screen name="add-pet" />
+        <Stack.Screen name="edit-pet" />
+        <Stack.Screen name="petCareAI" />
+        <Stack.Screen name="pet-explorer" />
+        <Stack.Screen name="pet-explorer/cats" />
+        <Stack.Screen name="pet-explorer/dogs" />
+        <Stack.Screen name="telephony" />
+        <Stack.Screen name="location" />
+        <Stack.Screen name="lifecycle" />
+      </Stack.Protected>
     </Stack>
   );
 }

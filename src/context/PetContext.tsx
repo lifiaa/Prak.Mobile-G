@@ -47,8 +47,8 @@ export function PetProvider({ children }: { children: ReactNode }) {
           .from("pets")
           .select("*")
           .eq("user_id", user.id)
-          .order("created_at", { ascending: false });
-
+          .order("created_at", { ascending: false }); //yup - baru ke lama
+          // .order("created_at", { ascending: true }); //yup - lama ke baru
         if (error) {
           throw error;
         }

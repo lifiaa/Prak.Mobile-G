@@ -1,3 +1,4 @@
+
 import {
   createContext,
   useContext,
@@ -23,24 +24,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    let authEventReceived = false;
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (mounted) {
-        setSession(session);
-        setIsLoading(false);
-      }
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      if (!mounted) return;
+
+      authEventReceived = true;
+      setSession(newSession);
+      setIsLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (mounted) {
-        if (!error) {
+    const initializeAuth = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+
+        if (!mounted) return;
+
+        if (error) {
+          console.error("Gagal memuat session:", error.message);
+        } else if (!authEventReceived) {
           setSession(data.session);
         }
-        setIsLoading(false);
+      } catch (error) {
+        console.error("Gagal menginisialisasi autentikasi:", error);
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
-    });
+    };
+
+    initializeAuth();
 
     return () => {
       mounted = false;
@@ -54,8 +70,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) {
       throw error;
     }
-
-    setSession(null);
   };
 
   return (

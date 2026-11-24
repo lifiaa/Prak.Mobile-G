@@ -172,7 +172,13 @@ export default function Home() {
           "Informasi",
           "Fitur Schedule belum tersedia."
         );
-},
+      },
+    },
+    {
+      title: "Notification",
+      subtitle: "Atur pengingat perawatan hewan",
+      icon: "notifications-outline" as const,
+      onPress: () => router.push("/notification"),
     },
     {
       title: "User Profile",
