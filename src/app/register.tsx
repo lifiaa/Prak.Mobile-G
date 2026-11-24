@@ -23,6 +23,8 @@ export default function Register() {
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [callsign, setCallsign] = useState("");
+  const [role, setRole] = useState("user");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +32,14 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
 
 const handleRegister = async () => {
+  // menghilangkan spasi di awal dan akhir
   const cleanName = fullName.trim();
   const cleanEmail = email.trim();
+  const cleanCallsign = callsign.trim();
+  const cleanPassword = password.trim(); //new
+  const cleanConfirmPassword = confirmPassword.trim(); //new
 
-  if (!cleanName || !cleanEmail || !password || !confirmPassword) {
+  if (!cleanName || !cleanEmail || !cleanPassword || !cleanConfirmPassword || !cleanCallsign) {
     showMessage("Perhatian", "Semua kolom wajib diisi.");
     return;
   }
@@ -43,12 +49,12 @@ const handleRegister = async () => {
     return;
   }
 
-  if (password.length < 6) {
+  if (cleanPassword.length < 6) {
     showMessage("Password Tidak Valid", "Password minimal 6 karakter.");
     return;
   }
 
-  if (password !== confirmPassword) {
+  if (cleanPassword !== cleanConfirmPassword) {
     showMessage("Password Tidak Cocok", "Konfirmasi password tidak sama.");
     return;
   }
@@ -58,16 +64,22 @@ const handleRegister = async () => {
 
     const { data, error } = await supabase.auth.signUp({
       email: cleanEmail,
-      password,
+      password: cleanPassword,
       options: {
         data: {
+          callsign: callsign,
+          role: role,
           full_name: cleanName,
         },
       },
     });
 
     if (error) {
-      showMessage("Registrasi Gagal", error.message);
+      if (error.message.toLowerCase().includes("already registered")) {
+        showMessage("Registrasi Gagal", "Email sudah terdaftar.");
+      } else {
+        showMessage("Registrasi Gagal", error.message);
+      }
       return;
     }
 
@@ -129,6 +141,19 @@ const handleRegister = async () => {
                 value={fullName}
                 onChangeText={setFullName}
                 autoCapitalize="words"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Ionicons name="person-outline" size={19} color="#91A1BA" />
+              <TextInput
+                style={styles.input}
+                placeholder="Callsign"
+                placeholderTextColor="#91A1BA"
+                value={callsign}
+                onChangeText={setCallsign}
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             </View>
 

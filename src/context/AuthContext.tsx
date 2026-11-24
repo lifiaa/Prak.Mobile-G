@@ -8,6 +8,7 @@ import {
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 
+// Menentukan data dan fungsi autentikasi yang dibagikan ke seluruh aplikasi
 interface AuthContextType {
   session: Session | null;
   user: User | null;
@@ -15,15 +16,18 @@ interface AuthContextType {
   signOut: () => Promise<void>;
 }
 
+// Membuat context untuk menyimpan informasi autentikasi
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  // Menyimpan session pengguna dan status loading
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
 
+    // Mendengarkan perubahan status autentikasi secara langsung
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -33,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
+    // Mengambil session yang tersimpan ketika aplikasi pertama kali dibuka
     supabase.auth.getSession().then(({ data, error }) => {
       if (mounted) {
         if (!error) {
@@ -42,12 +47,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
+    // Membersihkan listener ketika komponen tidak digunakan
     return () => {
       mounted = false;
       subscription.unsubscribe();
     };
   }, []);
 
+  // Menjalankan proses logout dari akun Supabase
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -58,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null);
   };
 
+  // Membagikan informasi autentikasi ke seluruh halaman aplikasi
   return (
     <AuthContext.Provider
       value={{
@@ -72,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Hook untuk mengakses data autentikasi dari komponen lain
 export function useAuth() {
   const context = useContext(AuthContext);
 
